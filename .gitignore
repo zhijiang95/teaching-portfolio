@@ -1,0 +1,18 @@
+# System
+.DS_Store
+
+# Media assets — skipped for now, added later
+*.jpg
+*.jpeg
+*.png
+*.JPG
+*.JPEG
+*.PNG
+*.gif
+*.webp
+*.mp4
+*.mov
+*.pdf
+
+# but keep the assets folder present
+!assets/.gitkeep
