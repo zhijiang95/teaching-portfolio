@@ -1,18 +1,11 @@
-# System
+# System files
 .DS_Store
+**/.DS_Store
 
-# Media assets — skipped for now, added later
-*.jpg
-*.jpeg
-*.png
-*.JPG
-*.JPEG
-*.PNG
-*.gif
-*.webp
-*.mp4
-*.mov
-*.pdf
+# Stray screen captures accidentally saved into assets (not used by the site)
+assets/Screenshot*.png
 
-# but keep the assets folder present
-!assets/.gitkeep
+# Stray images dropped at the project root — the site only uses /assets
+/*.jpg
+/*.jpeg
+/*.png

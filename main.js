@@ -28,21 +28,38 @@
       projects: [
         { img: "assets/promo.jpg",
           title: "Fee-Free TAFE — Campaign Key Visual",
-          desc: "Key visual and layout for TAFE Queensland's Fee-Free enrolment campaign, composed to work across web banners and print." }
+          desc: "Key visual and layout for TAFE Queensland's Fee-Free enrolment campaign, composed to work across web banners and print." },
+        { img: "assets/graphic-3.jpg",
+          title: "Learner Guide — Cover & Identity",
+          desc: "Cover and visual identity for a cybersecurity learner guide (Australian Signals Directorate)." },
+        { img: "assets/graphic-2.jpg",
+          title: "Learner Guide — Interior Layout",
+          desc: "Editorial page layout with a clear typographic hierarchy and supporting infographics." }
       ]
     },
     "elearning-design": {
       title: "E-Learning Design",
       projects: [
-        { img: "assets/brochure-thumb.png", link: "assets/brochure.pdf",
-          title: "Patch Application — Learner Guide",
-          desc: "Editorial layout for a self-paced cybersecurity learner guide: structured sections, callouts and diagrams. Open the full PDF to read it." }
+        { img: "assets/elearning-1.jpg",
+          title: "Electrical Safety Module",
+          desc: "An interactive isometric module with hotspots guiding safe work around exposed electrical sources." },
+        { img: "assets/elearning-2.jpg",
+          title: "Mining Automation",
+          desc: "A slide-based module introducing autonomous haulage vehicles and automation in the mining sector." },
+        { img: "assets/elearning-3.jpg",
+          title: "Carbon Capture Case Study",
+          desc: "An interactive explainer on carbon capture and storage in Australian mining operations." }
       ]
     },
     "3d-modelling": {
       title: "3D Modelling",
       projects: [
-        // { img: "assets/3d-1.jpg", title: "Fusion 360 prototype", desc: "..." },
+        { img: "assets/3d-modelling-1.jpg",
+          title: "Interactive Vehicle Model",
+          desc: "A configurable 3D car with openable doors and panels, built for the web with Blender and Three.js." },
+        { img: "assets/3d-modelling-2.jpg",
+          title: "Annotated Drone Model",
+          desc: "An interactive drone model with clickable hotspots explaining attachable peripherals." }
       ]
     },
     "unity-games": {
@@ -91,12 +108,21 @@
           desc: "A slow-simmered Chinese dessert soup — nutrition and cultural food traditions." }
       ]
     },
-    "video-editing": {
-      title: "Video Editing",
+    "photography": {
+      title: "Photography",
       projects: [
-        { video: "assets/video-editing.mp4",
-          title: "Educational explainer edit",
-          desc: "Motion-graphics video edit for an educational explainer — pacing, on-screen titling and sound." }
+        { img: "assets/photography-1.jpg",
+          title: "Southern Sky",
+          desc: "The Milky Way over a campsite — a long-exposure astrophotography study." },
+        { img: "assets/photography-3.jpg",
+          title: "Coolangatta Cadillac",
+          desc: "A vintage Cadillac parked on an overcast Gold Coast street." },
+        { img: "assets/photography-2.jpg",
+          title: "Behind the Wheel",
+          desc: "Interior detail of a restored classic car, shot with a shallow depth of field." },
+        { img: "assets/photography.jpg",
+          title: "In the Workshop",
+          desc: "An environmental portrait from a TAFE bike-maintenance workshop." }
       ]
     }
   };
@@ -164,6 +190,55 @@
       trigger.addEventListener("click", function () { openLightbox(key, trigger); });
     }
   });
+
+  // ------------------------------------------------------------------
+  // places I've lived — hover / focus / tap a name to pin it;
+  // otherwise the viewer slowly cycles through the journey on its own
+  // ------------------------------------------------------------------
+  var placeViewer = document.getElementById("placeViewer");
+  if (placeViewer) {
+    var pvImgs = Array.prototype.slice.call(placeViewer.querySelectorAll(".pv-img"));
+    var pvName = document.getElementById("pvName");
+    var pvSub = document.getElementById("pvSub");
+    var pvTimer = null;
+    var pvIndex = 0;
+    for (var pvi = 0; pvi < pvImgs.length; pvi++) {
+      if (pvImgs[pvi].classList.contains("is-active")) { pvIndex = pvi; break; }
+    }
+
+    var showIndex = function (i) {
+      pvIndex = (i + pvImgs.length) % pvImgs.length;
+      var target = pvImgs[pvIndex];
+      pvImgs.forEach(function (im) { im.classList.toggle("is-active", im === target); });
+      if (pvName) pvName.textContent = target.getAttribute("data-name") || "";
+      if (pvSub) pvSub.textContent = target.getAttribute("data-sub") || "";
+    };
+    var showPlace = function (key) {
+      for (var i = 0; i < pvImgs.length; i++) {
+        if (pvImgs[i].getAttribute("data-place") === key) { showIndex(i); return; }
+      }
+    };
+    var stopAuto = function () { if (pvTimer) { clearInterval(pvTimer); pvTimer = null; } };
+    var startAuto = function () {
+      if (reduce) return;
+      stopAuto();
+      pvTimer = setInterval(function () { showIndex(pvIndex + 1); }, 3200);
+    };
+
+    document.querySelectorAll(".place-link").forEach(function (link) {
+      var key = link.getAttribute("data-place");
+      var pin = function () { stopAuto(); showPlace(key); };
+      link.addEventListener("mouseenter", pin);
+      link.addEventListener("focus", pin);
+      link.addEventListener("mouseleave", startAuto);
+      link.addEventListener("blur", startAuto);
+      link.addEventListener("click", function (e) { e.preventDefault(); pin(); });
+    });
+    placeViewer.addEventListener("mouseenter", stopAuto);
+    placeViewer.addEventListener("mouseleave", startAuto);
+
+    startAuto();
+  }
 
   // ------------------------------------------------------------------
   // lightbox / carousel

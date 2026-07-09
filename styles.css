@@ -15,7 +15,7 @@
   --ink:        #16130E;   /* near-black */
   --ink-soft:   #55504733; /* hairline rules (ink @ ~20%) */
   --ink-mute:   #6A6459;   /* muted captions */
-  --accent:     #1C34D6;   /* cobalt — the single accent */
+  --accent:     #4482a3;   /* cobalt — the single accent */
   --accent-ink: #F4F1E9;   /* text on accent */
 
   --rule: 1px solid var(--ink);
@@ -197,22 +197,50 @@ body::before{
 .about .about-left{ padding:clamp(2rem,4vw,3.5rem) var(--pad);
   border-right:var(--rule); display:flex; flex-direction:column; gap:1.6rem; }
 .about h2.big{ margin:0; font-family:var(--f-display); font-weight:900;
-  text-transform:uppercase; line-height:.86; letter-spacing:-.02em;
+  text-transform:uppercase; line-height:.56; letter-spacing:-.02em;
   font-size:clamp(2.4rem,1rem + 6vw,5.4rem); }
 .about h2.big em{ font-style:normal; color:var(--accent); }
-.about-left p{ margin:0; max-width:46ch; font-size:1.02rem; }
+.about-left p{ margin:0; max-width:76ch; font-size:1.02rem; }
 .doodles{ display:flex; gap:1.2rem; margin-top:auto; color:var(--ink); }
 .doodles svg{ width:56px; height:56px; }
 
-.about .about-right{ padding:clamp(2rem,4vw,3.5rem) var(--pad);
+.about .about-right{ position:relative; overflow:hidden;
+  padding:clamp(2rem,4vw,3.5rem) var(--pad);
   display:grid; gap:1.6rem; align-content:start; background:var(--paper-2); }
 .about-block{ display:grid; gap:.5rem; }
 .about-block p{ margin:0; }
+
+/* poutama — stepped tukutuku motif, a nod to Aotearoa (steps toward knowledge) */
+.poutama{ position:absolute; top:clamp(.6rem,2vw,1.4rem); right:clamp(.6rem,2.4vw,1.6rem);
+  width:clamp(72px,10vw,116px); height:auto; color:var(--accent); opacity:.42;
+  pointer-events:none; }
+.about-block, .about-right .eyebrow{ position:relative; z-index:1; }
 
 @media (max-width:840px){
   .about{ grid-template-columns:1fr; }
   .about .about-left{ border-right:0; border-bottom:var(--rule); }
 }
+
+/* places I've lived — hover a place name in the intro to preview it */
+.place-link{ font:inherit; color:var(--accent); -webkit-text-fill-color:var(--accent);
+  appearance:none; -webkit-appearance:none; background:none; border:0; padding:0;
+  cursor:pointer; text-decoration:underline; text-decoration-style:dotted;
+  text-decoration-color:var(--accent); text-underline-offset:3px;
+  text-decoration-thickness:1.5px; transition:color .2s; }
+.place-link:hover, .place-link:focus-visible{ text-decoration-style:solid; }
+.place-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:2px; }
+
+.place-viewer{ margin:0; display:flex; flex-direction:column; gap:.6rem; }
+.pv-stage{ position:relative; aspect-ratio:16/10; border:var(--rule);
+  overflow:hidden; background:var(--paper-2); }
+.pv-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .5s ease; }
+.pv-img.is-active{ opacity:1; }
+.pv-cap{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.7ch;
+  font-family:var(--f-mono); font-size:.68rem; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--ink-mute); }
+.pv-name{ color:var(--ink); }
+@media (prefers-reduced-motion: reduce){ .pv-img{ transition:none; } }
 
 /* =====================================================================
    EXPERIENCE
@@ -237,7 +265,7 @@ body::before{
 /* =====================================================================
    DISCIPLINES  (capability grid — a set, so no sequential numbering)
    ===================================================================== */
-.disc-grid{ display:grid; grid-template-columns:repeat(4,1fr);
+.disc-grid{ display:grid; grid-template-columns:repeat(3,1fr);
   border-top:var(--rule); border-left:var(--rule); }
 .disc-card{ position:relative; border-right:var(--rule); border-bottom:var(--rule);
   display:flex; flex-direction:column; background:var(--paper); }
